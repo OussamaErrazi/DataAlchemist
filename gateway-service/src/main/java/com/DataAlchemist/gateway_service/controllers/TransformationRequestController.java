@@ -1,6 +1,7 @@
 package com.DataAlchemist.gateway_service.controllers;
 
 
+import com.DataAlchemist.gateway_service.constants.AppConstants;
 import com.DataAlchemist.gateway_service.controllers.requests.TransformationCreationRequest;
 import com.DataAlchemist.gateway_service.controllers.requests.TransformationScheduleRequest;
 import com.DataAlchemist.gateway_service.models.DataSource;
@@ -34,7 +35,7 @@ public class TransformationRequestController {
     public ResponseEntity<String> createTransformationJob(@RequestBody TransformationCreationRequest transformationCreationRequest) {
         LOGGER.info("received a data transformation job: {}", transformationCreationRequest);
         transformationProducerService.produceMessage(
-                "transformation-job-topic",
+                AppConstants.TRANSFORMATION_JOB_TOPIC,
                 getTransformationRequest(transformationCreationRequest)
         );
         return ResponseEntity.ok("transformation creation received.");
@@ -44,7 +45,7 @@ public class TransformationRequestController {
     public ResponseEntity<String> scheduleTransformationJob(@RequestBody TransformationScheduleRequest transformationScheduleRequest) {
         LOGGER.info("received a data transformation schedule: {}", transformationScheduleRequest);
         transformationProducerService.produceMessage(
-                "transformation-schedule-topic",
+                AppConstants.TRANSFORMATION_SCHEDULE_TOPIC,
                 getTransformationRequest(transformationScheduleRequest)
         );
         return ResponseEntity.ok("transformation schedule received.");
