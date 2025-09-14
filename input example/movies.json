@@ -1,0 +1,52 @@
+[
+  {
+    "id": 101,
+    "title": "Cosmic Journey",
+    "genre": "Sci-Fi",
+    "year": 2023,
+    "director": "Sarah Chen",
+    "rating": 8.7,
+    "runtime_minutes": 142,
+    "budget_millions": 10.9
+  },
+  {
+    "id": 102,
+    "title": "The Last Garden",
+    "genre": "Drama",
+    "year": 2022,
+    "director": null,
+    "rating": 7.3,
+    "runtime_minutes": 98,
+    "budget_millions": 15.5
+  },
+  {
+    "id": 103,
+    "title": "Midnight Chase",
+    "genre": "Action",
+    "year": 2024,
+    "director": "Marcus Thompson",
+    "rating": 6.8,
+    "runtime_minutes": 115,
+    "budget_millions": 85.2
+  },
+  {
+    "id": 104,
+    "title": "Whispers in Time",
+    "genre": "Mystery",
+    "year": 2021,
+    "director": "Elena Rodriguez",
+    "rating": 8.1,
+    "runtime_minutes": 127,
+    "budget_millions": 22.8
+  },
+  {
+    "id": 105,
+    "title": "Dancing Shadows",
+    "genre": "Romance",
+    "year": 2023,
+    "director": "David Kim",
+    "rating": 7.9,
+    "runtime_minutes": 105,
+    "budget_millions": 12.3
+  }
+]

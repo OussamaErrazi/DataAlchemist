@@ -1,0 +1,11 @@
+id,first_name,last_name,email,phone,registration_date,status,age,city,country
+1,John,Smith,john.smith@email.com,+1-555-0101,2023-01-15,active,28,New York,USA
+2,Jane,Doe,jane.doe@gmail.com,+1-555-0102,2023-02-20,active,34,Los Angeles,USA
+3,Bob,Johnson,bob.j@yahoo.com,555-0103,2023-03-10,inactive,45,Chicago,USA
+4,Alice,Williams,alice.w@hotmail.com,+1-555-0104,2023-04-05,active,29,Houston,USA
+5,Charlie,Brown,charlie.brown@email.com,,2023-05-12,pending,52,Phoenix,USA
+6,Diana,Davis,diana.davis@gmail.com,+1-555-0106,2023-06-18,active,31,Philadelphia,USA
+7,Eve,Miller,eve.miller@company.com,+1-555-0107,2023-07-22,active,27,San Antonio,USA
+8,Frank,Wilson,frank.wilson@email.com,555.0108,2023-08-30,suspended,38,San Diego,USA
+9,Grace,Moore,grace.moore@gmail.com,+1-555-0109,2023-09-14,active,42,Dallas,USA
+10,Henry,Taylor,,+1-555-0110,2023-10-25,inactive,35,San Jose,USA
