@@ -3,7 +3,7 @@
 **DataAlchemist** is a lightweight, modular data transformation pipeline built with **Spring Boot**, **Kafka**, and **Docker**.  
 The goal is simple: take raw data (JSON/CSV), clean it, transform it, and export it — all through a Kafka-powered pipeline.
 
-## 🎯 Transformation Pipeline Implementation Goals
+## 🎯 Transformation Pipeline Implementation Current Goals
 
 ✅ -> implemented | ❌ -> not yet implemented
 
@@ -27,7 +27,7 @@ Select specific columns from the dataset.
 
 Rename columns during selection using `as` keyword.
 
-**Example:** `%1 as employee_id, %2 as full_name` would rename id to employee_id and name to full_name
+**Example:** `%1 as employee_id, %2 as full_name` would rename 1st column to employee_id and 2nd column to full_name
 
 ---
 
@@ -79,8 +79,8 @@ Assert that a column position corresponds to a specific column name using `is` o
 
 ---
 
-### ❌ Goal 10: Sequential Pipeline Processing
+### ❌ Goal 10: Composite Expressions
 
-Apply transformations and filters in sequence from an array of strings.
+Combine multiple expressions in one.
 
-**Example:** `["%1 as id, %2 + %3 as total", "%2 >= 5000"]` would select first column as id and calculate totals, then filter by totals
+**Example:** `"%1 + %2 + %3 as total"` compute addition of more than two columns and name it total
