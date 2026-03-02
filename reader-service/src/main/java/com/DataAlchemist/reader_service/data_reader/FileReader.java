@@ -7,6 +7,7 @@ import com.DataAlchemist.reader_service.data_reader.intput_stream.DataStreamInpu
 import com.DataAlchemist.reader_service.data_reader.intput_stream.LocalStreamInput;
 import com.DataAlchemist.reader_service.data_reader.intput_stream.RemoteStreamInput;
 import com.DataAlchemist.reader_service.models.DataSource;
+import com.DataAlchemist.reader_service.models.enums.FileType;
 import com.DataAlchemist.reader_service.models.enums.SourceType;
 import lombok.Getter;
 
@@ -25,17 +26,21 @@ public class FileReader {
     private final Map<String, Class<?>> schema;
     private final DataStreamInput input;
     private final FileParser parser;
+    @Getter
+    private final FileType fileType;
 
-    public FileReader(DataStreamInput input, FileParser parser) throws IOException {
+    public FileReader(DataStreamInput input, FileParser parser, FileType fileType) throws IOException {
         this.input = input;
         this.parser = parser;
         this.schema = parser.getSchema(input.getInputStream());
+        this.fileType = fileType;
     }
 
-    public FileReader(Map<String, Class<?>> schema, DataStreamInput input, FileParser parser) {
+    public FileReader(Map<String, Class<?>> schema, DataStreamInput input, FileParser parser, FileType fileType) {
         this.schema = schema;
         this.input = input;
         this.parser = parser;
+        this.fileType = fileType;
     }
 
     public Stream<Map<String, Object>> streamEntries() throws IOException {
@@ -43,9 +48,11 @@ public class FileReader {
     }
 
     public static FileReader of(DataSource dataSource) throws IOException {
+        FileParser parser = getFileParser(dataSource.getDataSource(), dataSource.getSourceType());
         return new FileReader(
                 dataSource.getSourceType() == SourceType.Local ? new LocalStreamInput(dataSource.getDataSource()) : new RemoteStreamInput(dataSource.getDataSource(), dataSource.getAuthorizationToken()),
-                getFileParser(dataSource.getDataSource(), dataSource.getSourceType())
+                parser,
+                parser instanceof  JsonParser ? FileType.JSON : FileType.CSV
                 );
     }
 
