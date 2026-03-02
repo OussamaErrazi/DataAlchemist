@@ -8,9 +8,9 @@ services:
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,PLAINTEXT_DOCKER://:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_DOCKER://kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,PLAINTEXT_DOCKER:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
@@ -21,3 +21,37 @@ services:
 
       CLUSTER_ID: Ne7sHzX0QcqtklYUTGocWg
 
+  gateway-service:
+    container_name: gateway-service
+    build: ./gateway-service
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_SERVER_URL: kafka:29092
+    ports:
+      - "8080:8080"
+
+  transformation-service:
+    container_name: transformation-service
+    build: ./transformation-service
+    depends_on:
+      - kafka
+      - gateway-service
+    environment:
+      KAFKA_SERVER_URL: kafka:29092
+    ports:
+      - "8082:8081"
+  
+  
+  reader-service:
+    container_name: reader-service
+    build: ./reader-service
+    depends_on:
+      - kafka
+      - transformation-service
+    environment:
+      KAFKA_SERVER_URL: kafka:29092
+    ports:
+      - "8083:8082"
+    volumes:
+      - ./input example:/app/data
