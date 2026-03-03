@@ -2,6 +2,7 @@ package com.DataAlchemist.transformation_service.context.column_expression;
 
 import com.DataAlchemist.transformation_service.models.Cell;
 import com.DataAlchemist.transformation_service.models.Row;
+import com.DataAlchemist.transformation_service.models.enums.ColumnType;
 
 public class ArithmeticOpExpression implements ColumnExpression{
     private final char op;
@@ -40,13 +41,13 @@ public class ArithmeticOpExpression implements ColumnExpression{
     private Cell add(Cell left, Cell right) {
         Cell cell = new Cell();
         cell.setColumnName(left.getColumnName()+ " + "+right.getColumnName());
-        if (left.getColumnType().equals("String") || right.getColumnType().equals("String")) {
-            cell.setColumnType("String");
+        if (left.getColumnType() == ColumnType.STRING || right.getColumnType() == ColumnType.STRING) {
+            cell.setColumnType(ColumnType.STRING);
             cell.setValue(left.getValue().toString()+right.getValue().toString());
-        } else if (left.getColumnType().equals("Integer") || left.getColumnType().equals("Double")) {
-            if (right.getColumnType().equals("Integer") || right.getColumnType().equals("Double")) {
-                cell.setColumnType(left.getColumnType().equals("Double") || right.getColumnType().equals("Double") ? "Double" : "Integer");
-                if(cell.getColumnType().equals("Integer")) cell.setValue(Integer.parseInt(left.getValue().toString()) + Integer.parseInt(right.getValue().toString()));
+        } else if (left.isNumeric()) {
+            if (right.isNumeric()) {
+                cell.setColumnType(left.getColumnType() == ColumnType.DOUBLE || right.getColumnType() == ColumnType.DOUBLE ?  ColumnType.DOUBLE : ColumnType.INTEGER);
+                if(cell.getColumnType() == ColumnType.INTEGER) cell.setValue(Integer.parseInt(left.getValue().toString()) + Integer.parseInt(right.getValue().toString()));
                 else cell.setValue(Double.parseDouble(left.getValue().toString()) + Double.parseDouble(right.getValue().toString()));
             } else throw new IllegalArgumentException("Unsupported Addition Operation between : " + left.getColumnType() + " & "+right.getColumnType());
         } else throw new IllegalArgumentException("Unsupported Addition Operation between : " + left.getColumnType() + " & "+right.getColumnType());
@@ -57,10 +58,10 @@ public class ArithmeticOpExpression implements ColumnExpression{
     private Cell subtract(Cell left, Cell right) {
         Cell cell = new Cell();
         cell.setColumnName(left.getColumnName()+ " - "+right.getColumnName());
-        if (left.getColumnType().equals("Integer") || left.getColumnType().equals("Double")) {
-            if (right.getColumnType().equals("Integer") || right.getColumnType().equals("Double")) {
-                cell.setColumnType(left.getColumnType().equals("Double") || right.getColumnType().equals("Double") ? "Double" : "Integer");
-                if(cell.getColumnType().equals("Integer")) cell.setValue(Integer.parseInt(left.getValue().toString()) - Integer.parseInt(right.getValue().toString()));
+        if (left.isNumeric()) {
+            if (right.isNumeric()) {
+                cell.setColumnType(left.getColumnType() == ColumnType.DOUBLE || right.getColumnType() == ColumnType.DOUBLE ? ColumnType.DOUBLE : ColumnType.INTEGER);
+                if(cell.getColumnType() == ColumnType.INTEGER) cell.setValue(Integer.parseInt(left.getValue().toString()) - Integer.parseInt(right.getValue().toString()));
                 else cell.setValue(Double.parseDouble(left.getValue().toString()) - Double.parseDouble(right.getValue().toString()));
             } else throw new IllegalArgumentException("Unsupported Subtraction Operation between : " + left.getColumnType() + " & "+right.getColumnType());
         } else throw new IllegalArgumentException("Unsupported Subtraction Operation between : " + left.getColumnType() + " & "+right.getColumnType());
@@ -71,9 +72,9 @@ public class ArithmeticOpExpression implements ColumnExpression{
     private Cell divide(Cell left, Cell right) {
         Cell cell = new Cell();
         cell.setColumnName(left.getColumnName()+ " / "+right.getColumnName());
-        if (left.getColumnType().equals("Integer") || left.getColumnType().equals("Double")) {
-            if (right.getColumnType().equals("Integer") || right.getColumnType().equals("Double")) {
-                cell.setColumnType("Double");
+        if (left.isNumeric()) {
+            if (right.isNumeric()) {
+                cell.setColumnType(ColumnType.DOUBLE);
                 cell.setValue(Double.parseDouble(left.getValue().toString()) / Double.parseDouble(right.getValue().toString()));
             } else throw new IllegalArgumentException("Unsupported Division Operation between : " + left.getColumnType() + " & "+right.getColumnType());
         } else throw new IllegalArgumentException("Unsupported Division Operation between : " + left.getColumnType() + " & "+right.getColumnType());
@@ -84,20 +85,20 @@ public class ArithmeticOpExpression implements ColumnExpression{
     private Cell multiply(Cell left, Cell right) {
         Cell cell = new Cell();
         cell.setColumnName(left.getColumnName()+ " * "+right.getColumnName());
-        if(left.getColumnType().equals("String")) {
-            if (right.getColumnType().equals("Integer")) {
-                cell.setColumnType("String");
+        if(left.getColumnType() == ColumnType.STRING) {
+            if (right.getColumnType() == ColumnType.INTEGER) {
+                cell.setColumnType(ColumnType.STRING);
                 cell.setValue(left.getValue().toString().repeat(Integer.parseInt(right.getValue().toString())));
             } else throw new IllegalArgumentException("Unsupported Multiplication Operation between : " + left.getColumnType() + " & "+right.getColumnType());
-        } else if (right.getColumnType().equals("String")) {
-            if(left.getColumnType().equals("Integer")) {
-                cell.setColumnType("String");
+        } else if (right.getColumnType() == ColumnType.STRING) {
+            if(left.getColumnType() == ColumnType.INTEGER) {
+                cell.setColumnType(ColumnType.STRING);
                 cell.setValue(right.getValue().toString().repeat(Integer.parseInt(left.getValue().toString())));
             } else throw new IllegalArgumentException("Unsupported Multiplication Operation between : " + left.getColumnType() + " & "+right.getColumnType());
-        } else if (left.getColumnType().equals("Integer") || left.getColumnType().equals("Double")) {
-            if (right.getColumnType().equals("Integer") || right.getColumnType().equals("Double")) {
-                cell.setColumnType(left.getColumnType().equals("Double") || right.getColumnType().equals("Double") ? "Double" : "Integer");
-                if (cell.getColumnType().equals("Double")) cell.setValue(Double.parseDouble(left.getValue().toString()) * Double.parseDouble(right.getValue().toString()));
+        } else if (left.isNumeric()) {
+            if (right.isNumeric()) {
+                cell.setColumnType(left.getColumnType() == ColumnType.DOUBLE || right.getColumnType() == ColumnType.DOUBLE ?  ColumnType.DOUBLE : ColumnType.INTEGER);
+                if (cell.getColumnType() == ColumnType.DOUBLE) cell.setValue(Double.parseDouble(left.getValue().toString()) * Double.parseDouble(right.getValue().toString()));
                 else cell.setValue(Integer.parseInt(left.getValue().toString()) * Integer.parseInt(right.getValue().toString()));
             } else throw new IllegalArgumentException("Unsupported Multiplication Operation between : " + left.getColumnType() + " & "+right.getColumnType());
         }

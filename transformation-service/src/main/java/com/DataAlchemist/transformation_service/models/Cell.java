@@ -1,6 +1,7 @@
 package com.DataAlchemist.transformation_service.models;
 
 
+import com.DataAlchemist.transformation_service.models.enums.ColumnType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,5 +15,9 @@ public class Cell {
 
     private Object value;
     private String columnName;
-    private String columnType;
+    private ColumnType columnType;
+
+    public boolean isNumeric() {
+        return columnType == ColumnType.INTEGER || columnType == ColumnType.DOUBLE;
+    }
 }
