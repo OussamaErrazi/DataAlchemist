@@ -17,8 +17,8 @@ public class ArithmeticOpExpression implements ColumnExpression{
     //TODO complete this evaluate method
     @Override
     public Cell evaluate(Row row) {
-        Cell leftCell = row.getCells().get(leftOperand - 1);
-        Cell rightCell = row.getCells().get(rightOperand - 1);
+        Cell leftCell = row.getCells().get(leftOperand);
+        Cell rightCell = row.getCells().get(rightOperand);
         switch (this.op) {
             case '+' -> {
                 return add(leftCell, rightCell);
