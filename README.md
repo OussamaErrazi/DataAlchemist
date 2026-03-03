@@ -7,7 +7,7 @@ The goal is simple: take raw data (JSON/CSV), clean it, transform it, and export
 
 ✅ -> implemented | ❌ -> not yet implemented
 
-### ❌ Goal 1: Column Reference by Position
+### ✅ Goal 1: Column Reference by Position
 
 Columns can be referenced like this `%i` with i the position of the column starting from 1.
 
@@ -15,7 +15,7 @@ Columns can be referenced like this `%i` with i the position of the column start
 
 ---
 
-### ❌ Goal 2: Column Selection
+### ✅ Goal 2: Column Selection
 
 Select specific columns from the dataset.
 
@@ -31,7 +31,7 @@ Rename columns during selection using `as` keyword.
 
 ---
 
-### ❌ Goal 4: Basic Arithmetic Operations
+### ✅ Goal 4: Basic Arithmetic Operations
 
 Perform calculations between columns using `+`, `-`, `*`, `/` operators.
 
