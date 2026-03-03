@@ -23,7 +23,7 @@ Select specific columns from the dataset.
 
 ---
 
-### ❌ Goal 3: Column Aliasing
+### ✅ Goal 3: Column Aliasing
 
 Rename columns during selection using `as` keyword.
 
