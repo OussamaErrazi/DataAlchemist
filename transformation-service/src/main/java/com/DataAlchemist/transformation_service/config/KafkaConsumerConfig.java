@@ -28,7 +28,7 @@ public class KafkaConsumerConfig {
     private String KAFKA_SERVER_URL;
 
     @Bean
-    public ConsumerFactory<String, TransformationRequest> consumerFactory() {
+    public ConsumerFactory<String, TransformationRequest> consumerFactory1() {
         Map<String, Object> consumerConfigMap = new HashMap<>();
         consumerConfigMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_SERVER_URL);
         consumerConfigMap.put(ConsumerConfig.GROUP_ID_CONFIG, "transformation-workers");
@@ -46,9 +46,34 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, TransformationRequest>> kafkaListenerContainerFactory(ConsumerFactory<String, TransformationRequest> consumerFactory) {
+    public ConsumerFactory<String, TransformationRequest> consumerFactory2() {
+        Map<String, Object> consumerConfigMap = new HashMap<>();
+        consumerConfigMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_SERVER_URL);
+        consumerConfigMap.put(ConsumerConfig.GROUP_ID_CONFIG, "transformation-workers");
+
+        consumerConfigMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        consumerConfigMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+
+        consumerConfigMap.put(ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS, StringDeserializer.class);
+        consumerConfigMap.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
+
+        consumerConfigMap.put(JsonDeserializer.TRUSTED_PACKAGES, "com.DataAlchemist.*");
+        consumerConfigMap.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "com.DataAlchemist.transformation_service.models.DataStreamResponse");
+
+        return new DefaultKafkaConsumerFactory<>(consumerConfigMap);
+    }
+
+    @Bean
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, TransformationRequest>> kafkaListenerContainerFactory1(ConsumerFactory<String, TransformationRequest> consumerFactory1) {
         ConcurrentKafkaListenerContainerFactory<String, TransformationRequest> containerFactory = new ConcurrentKafkaListenerContainerFactory<>();
-        containerFactory.setConsumerFactory(consumerFactory);
+        containerFactory.setConsumerFactory(consumerFactory1);
+        return containerFactory;
+    }
+
+    @Bean
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, TransformationRequest>> kafkaListenerContainerFactory2(ConsumerFactory<String, TransformationRequest> consumerFactory2) {
+        ConcurrentKafkaListenerContainerFactory<String, TransformationRequest> containerFactory = new ConcurrentKafkaListenerContainerFactory<>();
+        containerFactory.setConsumerFactory(consumerFactory2);
         return containerFactory;
     }
 }
