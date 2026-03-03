@@ -11,7 +11,9 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,9 +37,10 @@ public class DataRequestConsumerService {
         try {
             fileReader = FileReader.of(dataStreamRequest.getDataSource());
 //            LOGGER.info("here is the dataset schema: {}", fileReader.getSchema());
-            Map<String, String> schemaPayload = fileReader.getSchema()
-                    .entrySet().stream()
-                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getSimpleName()));
+            Map<String, String> schemaPayload = new LinkedHashMap<>();
+            for(Map.Entry<String, Class<?>> entry : fileReader.getSchema().entrySet()) {
+                schemaPayload.put(entry.getKey(), entry.getValue().getSimpleName());
+            }
             dataResponseProducerService.produceDataStreamResponse(
                     DataStreamResponse.builder()
                             .requestId(dataStreamRequest.getRequestId())
@@ -51,8 +54,12 @@ public class DataRequestConsumerService {
             AtomicLong index = new AtomicLong(1);
             try(Stream<Map<String, Object>> stream = fileReader.streamEntries()) {
                 stream.forEach(e -> {
-//                    LOGGER.info(e.toString());
-                    Map<String, String> rowPayload = e.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toString()));
+                    LOGGER.info("entry before to payload {}",e.toString());
+                    Map<String, String> rowPayload = new LinkedHashMap<>();
+                    for(Map.Entry<String, Object> entry : e.entrySet()){
+                        rowPayload.put(entry.getKey(), entry.getValue() == null ? null : entry.getValue().toString());
+                    }
+                    LOGGER.info("payload to send {}", rowPayload);
                     dataResponseProducerService.produceDataStreamResponse(
                             DataStreamResponse.builder()
                                     .requestId(dataStreamRequest.getRequestId())
@@ -62,6 +69,7 @@ public class DataRequestConsumerService {
                                     .fileType(fileReader.getFileType())
                                     .build()
                     );
+                    LOGGER.info("row number {} was sent successfully.", index.get());
                     index.getAndIncrement();
                 });
             } catch (Exception e) {
