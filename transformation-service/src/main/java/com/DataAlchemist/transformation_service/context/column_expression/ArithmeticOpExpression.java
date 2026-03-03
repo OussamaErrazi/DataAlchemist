@@ -7,19 +7,25 @@ import com.DataAlchemist.transformation_service.models.enums.ColumnType;
 public class ArithmeticOpExpression implements ColumnExpression{
     private final char op;
     private final int leftOperand;
+    private final Object leftVal;
     private final int rightOperand;
+    private final Object rightVal;
 
-    public ArithmeticOpExpression(char op, int leftOperand, int rightOperand) {
+
+    public ArithmeticOpExpression(char op, int leftOperand, Object leftVal,int rightOperand, Object rightVal) {
         this.op = op;
-        this.leftOperand = leftOperand;
-        this.rightOperand = rightOperand;
+        this.leftOperand = leftOperand; this.leftVal = leftVal;
+        this.rightOperand = rightOperand; this.rightVal = rightVal;
     }
 
     //TODO complete this evaluate method
     @Override
     public Cell evaluate(Row row) {
-        Cell leftCell = row.getCells().get(leftOperand);
-        Cell rightCell = row.getCells().get(rightOperand);
+        Cell leftCell;Cell rightCell;
+        if(leftOperand != -1) leftCell = row.getCells().get(leftOperand);
+        else leftCell = ColumnExpression.getCellFromVal(leftVal);
+        if(rightOperand !=-1) rightCell = row.getCells().get(rightOperand);
+        else rightCell = ColumnExpression.getCellFromVal(rightVal);
         switch (this.op) {
             case '+' -> {
                 return add(leftCell, rightCell);
