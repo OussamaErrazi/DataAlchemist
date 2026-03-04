@@ -95,7 +95,7 @@ public class ComparisonExpression implements ColumnExpression{
     private boolean compareDates(String o, String date1, String date2) {
         int day1, month1, year1;
         int day2, month2, year2;
-        String datePattern = "^\\(([0-9]{0,2}),([0-9]{0,2}),([0-9]{0,4})\\)$";
+        String datePattern = "^date\\(([0-9]{0,2}),([0-9]{0,2}),([0-9]{0,4})\\)$";
         Pattern pattern = Pattern.compile(datePattern);
         Matcher matcher1 = pattern.matcher(date1);
         if(matcher1.matches()){
