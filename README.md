@@ -71,7 +71,7 @@ Combine multiple filter conditions using `AND`, `OR` operators.
 
 ---
 
-### ❌ Goal 9: Column Type Casting
+### ✅ Goal 9: Column Type Casting
 
 Cast type to a column using `is` operator.
 
