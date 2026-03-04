@@ -36,7 +36,29 @@ public class Parser {
     }
 
     private ColumnExpression parseBinaryOp() {
-        return parseComparison();
+        return parseOrOp();
+    }
+
+    private ColumnExpression parseOrOp() {
+        ColumnExpression left = parseAndOp();
+        while(current().getType() == TokenType.OR) {
+            consume();
+            ColumnExpression right = parseAndOp();
+            //todo implement logicOpExpression
+            left = new LogicalOpExpression("or", left, right);
+        }
+        return left;
+    }
+
+    private ColumnExpression parseAndOp() {
+        ColumnExpression left = parseComparison();
+        while(current().getType() == TokenType.AND) {
+            consume();
+            ColumnExpression right = parseComparison();
+            //todo implement logicOpExpression
+            left = new LogicalOpExpression("and", left, right);
+        }
+        return left;
     }
 
     private ColumnExpression parseComparison() {

@@ -95,6 +95,8 @@ public class Lexer {
         }
         String word = sb.toString();
         return switch (word.toLowerCase()) {
+            case "and" -> new Token("and", TokenType.AND);
+            case "or" -> new Token("or", TokenType.OR);
             case "as" -> new Token("as", TokenType.AS);
             case "is" -> new Token("is", TokenType.IS);
             case "true" -> new Token("true", TokenType.BOOLEAN);
