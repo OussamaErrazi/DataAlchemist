@@ -19,7 +19,6 @@ public class PipelineBuilder {
             List<ColumnExpression> expressionList = new ArrayList<>();
             for(String colExpression : parts) {
                 List<Token> tokens = new Lexer(colExpression).tokenize();
-                tokens.forEach(t -> System.out.println(t.getType() + " -> "+t.getValue()));
                 ColumnExpression expr = new Parser(tokens).parseColumnExpression();
                 expressionList.add(expr);
             }

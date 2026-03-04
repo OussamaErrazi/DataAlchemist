@@ -65,7 +65,6 @@ public class TransformationJobConsumerService {
     public void consume(DataStreamResponse dataStreamResponse) {
         switch (dataStreamResponse.getStreamType()) {
             case StreamType.SCHEMA -> {
-                //TODO set up schema context
                 SchemaContext schemaCxt = new SchemaContext();
                 for(Map.Entry<String, String> entry : dataStreamResponse.getPayload().entrySet()){
                     schemaCxt.addColumn(entry.getKey(), entry.getValue());
