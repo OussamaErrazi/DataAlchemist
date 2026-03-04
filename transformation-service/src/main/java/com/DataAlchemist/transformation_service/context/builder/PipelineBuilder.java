@@ -1,7 +1,10 @@
 package com.DataAlchemist.transformation_service.context.builder;
 
 import com.DataAlchemist.transformation_service.context.PipelineContext;
-import com.DataAlchemist.transformation_service.context.column_expression.ColumnExpressionResolver;
+import com.DataAlchemist.transformation_service.context.column_expression.ColumnExpression;
+import com.DataAlchemist.transformation_service.context.parser.Lexer;
+import com.DataAlchemist.transformation_service.context.parser.Parser;
+import com.DataAlchemist.transformation_service.context.parser.Token;
 import com.DataAlchemist.transformation_service.context.pipe.TransformationPipe;
 
 import java.util.ArrayList;
@@ -12,13 +15,16 @@ public class PipelineBuilder {
     public static PipelineContext build(List<String> regexPipeline) {
         PipelineContext pipelineCxt = new PipelineContext();
         for(String expression : regexPipeline) {
-            List<String> tokens = splitByComma(expression);
-            TransformationPipe pipe = new TransformationPipe();
-            for(String token : tokens) {
-                pipe.addColumnExpression(ColumnExpressionResolver.resolve(token));
+            List<String> parts = splitByComma(expression);
+            List<ColumnExpression> expressionList = new ArrayList<>();
+            for(String colExpression : parts) {
+                List<Token> tokens = new Lexer(colExpression).tokenize();
+                tokens.forEach(t -> System.out.println(t.getType() + " -> "+t.getValue()));
+                ColumnExpression expr = new Parser(tokens).parseColumnExpression();
+                expressionList.add(expr);
             }
 
-            pipelineCxt.addPipe(pipe);
+            pipelineCxt.addPipe(new TransformationPipe(expressionList));
         }
 
         return pipelineCxt;

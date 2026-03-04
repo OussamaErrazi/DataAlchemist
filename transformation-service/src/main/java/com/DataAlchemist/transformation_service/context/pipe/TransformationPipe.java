@@ -8,7 +8,11 @@ import java.util.List;
 
 public class TransformationPipe implements Pipe {
 
-    private final List<ColumnExpression> columnExpressions = new ArrayList<>();
+    private final List<ColumnExpression> columnExpressions;
+
+    public TransformationPipe(List<ColumnExpression> columnExpressions) {
+        this.columnExpressions = columnExpressions;
+    }
 
     public void addColumnExpression(ColumnExpression expr) {
         columnExpressions.add(expr);
