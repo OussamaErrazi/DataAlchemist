@@ -35,27 +35,19 @@ Rename columns during selection using `as` keyword.
 
 Perform calculations between columns using `+`, `-`, `*`, `/` operators.
 
-**Example:** `(%3 + %4) as total` with table `["id", "name", "base", "bonus"]` would add base and bonus columns
+**Example:** `(%5 + %3 * %4) as total` with table `["id", "name", "hours attended", "base", "bonus"]` would add bonus to (base \* hours attended) and name column "total"
 
 ---
 
-### ❌ Goal 5: Numeric Comparison Filters
+### ✅ Goal 5: Comparison Operations
 
-Filter rows using comparison operators `>`, `<`, `>=`, `<=`, `==`, `!=`.
+Perform comparison operations using the operators : `>`, `<`, `>=`, `<=`, `==`, `!=`.
 
-**Example:** `%3 >= 5000` would keep only rows where the third column value is 5000 or higher
-
----
-
-### ❌ Goal 6: String Equality Filters
-
-Filter rows based on exact string matches.
-
-**Example:** `%2 == "IT"` would keep only rows where the second column equals "IT"
+**Example:** `%3 >= 5000` returns a boolean column — true when the third column is 5000 or more, otherwise false
 
 ---
 
-### ❌ Goal 7: Regex Pattern Matching
+### ❌ Goal 6: Regex Pattern Matching
 
 Filter rows using regex patterns with `~` operator.
 
@@ -63,7 +55,7 @@ Filter rows using regex patterns with `~` operator.
 
 ---
 
-### ❌ Goal 8: Logical Operators
+### ✅ Goal 7: Logical Operators
 
 Combine multiple filter conditions using `AND`, `OR` operators.
 
@@ -71,7 +63,7 @@ Combine multiple filter conditions using `AND`, `OR` operators.
 
 ---
 
-### ✅ Goal 9: Column Type Casting
+### ✅ Goal 8: Column Type Casting
 
 Cast type to a column using `is` operator.
 
@@ -79,8 +71,8 @@ Cast type to a column using `is` operator.
 
 ---
 
-### ✅ Goal 10: Composite Expressions
+### ✅ Goal 9: Composite Expressions
 
 Combine multiple expressions in one.
 
-**Example:** `"%1 + %2 + %3 as total"` compute addition of more than two columns and name it total
+**Example:** `"%1 * 2 + %2 + %3 as new column is integer"` compute addition|multiplication of more than two columns and name it total + convert type to integer
