@@ -25,7 +25,6 @@ public class Parser {
         if(current().getType() == TokenType.IS) {
             consume();
             String type = expect(TokenType.IDENTIFIER).getValue();
-            //todo use TypeCasterExpression class here after creating it
             expr = new TypeCastingExpression(expr, ColumnType.valueOf(type.toUpperCase()));
         }
 
@@ -46,7 +45,7 @@ public class Parser {
             String op = consume().getValue();
             ColumnExpression right = parseAddSub();
             //TODO implement the comparison expression class
-//            left = new ComparisonExpression(op, left, right);
+            left = new ComparisonExpression(op, left, right);
         }
         return left;
     }
