@@ -1,6 +1,7 @@
 package com.DataAlchemist.transformation_service.context.parser;
 
 import com.DataAlchemist.transformation_service.context.column_expression.*;
+import com.DataAlchemist.transformation_service.models.enums.ColumnType;
 
 import java.util.List;
 
@@ -23,8 +24,9 @@ public class Parser {
 
         if(current().getType() == TokenType.IS) {
             consume();
-            String type = expect(TokenType.STRING).getValue();
+            String type = expect(TokenType.IDENTIFIER).getValue();
             //todo use TypeCasterExpression class here after creating it
+            expr = new TypeCastingExpression(expr, ColumnType.valueOf(type.toUpperCase()));
         }
 
         if(current().getType() != TokenType.EOE) {
