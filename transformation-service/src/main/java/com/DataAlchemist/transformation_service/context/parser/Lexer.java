@@ -43,17 +43,17 @@ public class Lexer {
         if(c == '/') {position++; return new Token("/", TokenType.DIVIDE);}
         if(c=='<') {
             if(peek() == '=') {position+=2;return new Token("<=", TokenType.LE);}
-            else {position++;new Token("<", TokenType.LT);}
+            else {position++;return new Token("<", TokenType.LT);}
         }
         if(c=='>') {
             if(peek() == '=') {position+=2;return new Token(">=", TokenType.GE);}
-            else {position++;new Token(">", TokenType.GT);}
+            else {position++;return new Token(">", TokenType.GT);}
         }
         if(c == '!' && peek()=='=') {position+=2; return new Token("!=", TokenType.NEQ);}
         if(c == '=' && peek()=='=') {position+=2; return new Token("==", TokenType.EQ);}
 
 
-        throw new IllegalArgumentException("Unknown character : "+ c + " at position "+position+"in expression "+expression);
+        throw new IllegalArgumentException("Unknown character : "+ c + " at position "+position+" in expression "+expression);
     }
 
     private Token readColumnRef() {
@@ -72,7 +72,10 @@ public class Lexer {
         while(position<expression.length() && Character.isDigit(expression.charAt(position))) {
             sb.append(expression.charAt(position++));
         }
-        if(position<expression.length() && expression.charAt(position++) == '.') sb.append('.');
+        if(position<expression.length() && expression.charAt(position) == '.') {
+            sb.append('.');
+            position++;
+        }
         while(position<expression.length() && Character.isDigit(expression.charAt(position))) {
             sb.append(expression.charAt(position++));
         }
@@ -80,7 +83,7 @@ public class Lexer {
         try{
             Integer.parseInt(number);
             return new Token(number, TokenType.INTEGER);
-        } catch (Exception ignore) {
+        } catch (Exception ignored) {
             return new Token(number, TokenType.DOUBLE);
         }
     }
