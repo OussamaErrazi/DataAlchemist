@@ -71,15 +71,15 @@ Combine multiple filter conditions using `AND`, `OR` operators.
 
 ---
 
-### ❌ Goal 9: Column Name Assertions
+### ❌ Goal 9: Column Type Casting
 
-Assert that a column position corresponds to a specific column name using `is` operator.
+Cast type to a column using `is` operator.
 
-**Example:** `%1 is id, %2 is employee_name` would verify that the first column is named "id" and second is "employee_name"
+**Example:** `%1, %2 is integer` convert second column type to integer (ex: double to integer)
 
 ---
 
-### ❌ Goal 10: Composite Expressions
+### ✅ Goal 10: Composite Expressions
 
 Combine multiple expressions in one.
 
