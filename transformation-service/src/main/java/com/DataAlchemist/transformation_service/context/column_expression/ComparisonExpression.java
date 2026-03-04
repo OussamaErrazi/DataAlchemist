@@ -26,10 +26,10 @@ public class ComparisonExpression implements ColumnExpression{
         Cell left = leftOperand.evaluate(row);
         Cell right = rightOperand.evaluate(row);
         if(left.isNumeric() != right.isNumeric()) {
-            throw new IllegalArgumentException("Unsupported operation between "+left.getValue()+" with type "+left.getColumnType()+" and "+right.getValue()+" with type "+right.getColumnType());
+            throw new IllegalArgumentException("Unsupported operation '"+op+"' between "+left.getValue()+" with type "+left.getColumnType()+" and "+right.getValue()+" with type "+right.getColumnType());
         }
-        if(left.getColumnType() != right.getColumnType()) {
-            throw new IllegalArgumentException("Unsupported operation between "+left.getValue()+" with type "+left.getColumnType()+" and "+right.getValue()+" with type "+right.getColumnType());
+        if(left.getColumnType() != right.getColumnType() && !left.isNumeric()) {
+            throw new IllegalArgumentException("Unsupported operation '"+op+"' between "+left.getValue()+" with type "+left.getColumnType()+" and "+right.getValue()+" with type "+right.getColumnType());
         }
         switch (op) {
             case "==" : return eq(left, right);
