@@ -11,6 +11,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -57,7 +59,7 @@ public class DataRequestConsumerService {
                     LOGGER.info("entry before to payload {}",e.toString());
                     Map<String, String> rowPayload = new LinkedHashMap<>();
                     for(Map.Entry<String, Object> entry : e.entrySet()){
-                        rowPayload.put(entry.getKey(), entry.getValue() == null ? null : entry.getValue().toString());
+                        rowPayload.put(entry.getKey(), entry.getValue() == null ? null : schemaPayload.get(entry.getKey()).equalsIgnoreCase("date") ? formatDateString(entry.getValue().toString()) : entry.getValue().toString());
                     }
                     LOGGER.info("payload to send {}", rowPayload);
                     dataResponseProducerService.produceDataStreamResponse(
@@ -90,5 +92,16 @@ public class DataRequestConsumerService {
             return;
         }
         LOGGER.info("the file data streaming ended.");
+    }
+
+    private String formatDateString(String date) {
+        for(String dateFormat : AppConstants.DATE_FORMATS) {
+            try{
+                return LocalDate.parse(date, DateTimeFormatter.ofPattern(dateFormat)).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            } catch (Exception ignored) {
+
+            }
+        }
+        return date;
     }
 }

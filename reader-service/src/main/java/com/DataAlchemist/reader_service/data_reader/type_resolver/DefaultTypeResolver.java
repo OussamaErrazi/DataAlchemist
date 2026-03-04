@@ -1,5 +1,7 @@
 package com.DataAlchemist.reader_service.data_reader.type_resolver;
 
+import com.DataAlchemist.reader_service.constants.AppConstants;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,7 +13,7 @@ public class DefaultTypeResolver implements TypeResolver{
     private final List<String> dateFormats;
 
     public DefaultTypeResolver() {
-        this.dateFormats = List.of("yyyy-MM-dd", "MM/dd/yyyy", "dd-MM-yyyy");
+        this.dateFormats = AppConstants.DATE_FORMATS;
     }
 
 
