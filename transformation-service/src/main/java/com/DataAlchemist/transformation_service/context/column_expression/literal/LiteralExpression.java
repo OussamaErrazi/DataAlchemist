@@ -1,10 +1,11 @@
-package com.DataAlchemist.transformation_service.context.column_expression;
+package com.DataAlchemist.transformation_service.context.column_expression.literal;
 
+import com.DataAlchemist.transformation_service.context.column_expression.ColumnExpression;
 import com.DataAlchemist.transformation_service.models.Cell;
 import com.DataAlchemist.transformation_service.models.Row;
 import com.DataAlchemist.transformation_service.models.enums.ColumnType;
 
-public class LiteralExpression implements ColumnExpression{
+public class LiteralExpression implements ColumnExpression {
     private final Object value;
 
     public LiteralExpression(Object value) {

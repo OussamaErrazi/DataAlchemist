@@ -115,7 +115,7 @@ Check whether a column value is null or not null using == and != operators and t
 
 **Example:** `%3 != null` returns true when the third column is not null. Can be used inside functions and other expressions to handle null values.
 
-### ❌ Goal 14: Null FallBack
+### ✅ Goal 14: Null FallBack
 
 Provide default value for missing data
 

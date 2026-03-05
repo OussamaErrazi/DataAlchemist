@@ -1,15 +1,16 @@
-package com.DataAlchemist.transformation_service.context.column_expression;
+package com.DataAlchemist.transformation_service.context.column_expression.function;
 
+import com.DataAlchemist.transformation_service.context.column_expression.ColumnExpression;
 import com.DataAlchemist.transformation_service.models.Cell;
 import com.DataAlchemist.transformation_service.models.Row;
 import com.DataAlchemist.transformation_service.models.enums.ColumnType;
 
-public class DateLiteralExpression implements ColumnExpression{
+public class DateFunctionExpression implements ColumnExpression {
     private final ColumnExpression day;
     private final ColumnExpression month;
     private final ColumnExpression year;
 
-    public DateLiteralExpression(ColumnExpression day, ColumnExpression month, ColumnExpression year) {
+    public DateFunctionExpression(ColumnExpression day, ColumnExpression month, ColumnExpression year) {
         this.day = day;
         this.month = month;
         this.year = year;

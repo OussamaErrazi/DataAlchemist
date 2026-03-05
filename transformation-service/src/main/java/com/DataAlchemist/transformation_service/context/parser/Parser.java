@@ -1,6 +1,10 @@
 package com.DataAlchemist.transformation_service.context.parser;
 
 import com.DataAlchemist.transformation_service.context.column_expression.*;
+import com.DataAlchemist.transformation_service.context.column_expression.arithmetic.ArithmeticExpression;
+import com.DataAlchemist.transformation_service.context.column_expression.comparison.ComparisonExpression;
+import com.DataAlchemist.transformation_service.context.column_expression.function.FunctionExpressionFactory;
+import com.DataAlchemist.transformation_service.context.column_expression.literal.LiteralExpression;
 import com.DataAlchemist.transformation_service.models.enums.ColumnType;
 
 import java.util.ArrayList;
@@ -79,7 +83,7 @@ public class Parser {
         while(current().getType() == TokenType.PLUS || current().getType() == TokenType.MINUS) {
             String op = consume().getValue();
             ColumnExpression right = parseMulDiv();
-            left = new ArithmeticOpExpression(op.charAt(0), left, right);
+            left = new ArithmeticExpression(op.charAt(0), left, right);
         }
 
         return left;
@@ -91,7 +95,7 @@ public class Parser {
         while(current().getType() == TokenType.MULTIPLY || current().getType() == TokenType.DIVIDE) {
             String op = consume().getValue();
             ColumnExpression right = parseTerm();
-            left = new ArithmeticOpExpression(op.charAt(0), left, right);
+            left = new ArithmeticExpression(op.charAt(0), left, right);
         }
 
         return left;

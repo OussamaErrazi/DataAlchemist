@@ -1,16 +1,17 @@
-package com.DataAlchemist.transformation_service.context.column_expression;
+package com.DataAlchemist.transformation_service.context.column_expression.arithmetic;
 
+import com.DataAlchemist.transformation_service.context.column_expression.ColumnExpression;
 import com.DataAlchemist.transformation_service.models.Cell;
 import com.DataAlchemist.transformation_service.models.Row;
 import com.DataAlchemist.transformation_service.models.enums.ColumnType;
 
-public class ArithmeticOpExpression implements ColumnExpression{
+public class ArithmeticExpression implements ColumnExpression {
     private final char op;
     private final ColumnExpression leftOperand;
     private final ColumnExpression rightOperand;
 
 
-    public ArithmeticOpExpression(char op, ColumnExpression leftOperand, ColumnExpression rightOperand) {
+    public ArithmeticExpression(char op, ColumnExpression leftOperand, ColumnExpression rightOperand) {
         this.op = op;
         this.leftOperand = leftOperand;
         this.rightOperand = rightOperand;

@@ -1,5 +1,7 @@
-package com.DataAlchemist.transformation_service.context.column_expression;
+package com.DataAlchemist.transformation_service.context.column_expression.comparison;
 
+import com.DataAlchemist.transformation_service.context.column_expression.ColumnExpression;
+import com.DataAlchemist.transformation_service.context.column_expression.NullExpression;
 import com.DataAlchemist.transformation_service.models.Cell;
 import com.DataAlchemist.transformation_service.models.Row;
 import com.DataAlchemist.transformation_service.models.enums.ColumnType;
@@ -9,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ComparisonExpression implements ColumnExpression{
+public class ComparisonExpression implements ColumnExpression {
     private final String op;
     private final ColumnExpression leftOperand;
     private final ColumnExpression rightOperand;
