@@ -41,6 +41,7 @@ public class Lexer {
         if(c == '-') {position++; return new Token("-", TokenType.MINUS);}
         if(c == '*') {position++; return new Token("*", TokenType.MULTIPLY);}
         if(c == '/') {position++; return new Token("/", TokenType.DIVIDE);}
+        if(c == '~') {position++; return new Token("~", TokenType.MATCH);}
         if(c=='<') {
             if(peek() == '=') {position+=2;return new Token("<=", TokenType.LE);}
             else {position++;return new Token("<", TokenType.LT);}

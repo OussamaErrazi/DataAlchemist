@@ -25,11 +25,23 @@ public class ComparisonExpression implements ColumnExpression{
     public Cell evaluate(Row row) {
         Cell left = leftOperand.evaluate(row);
         Cell right = rightOperand.evaluate(row);
+        if(op.equals("~")) {
+            if (left.getColumnType() == ColumnType.STRING && right.getColumnType() == ColumnType.STRING) {
+                Pattern pattern = Pattern.compile(right.getValue().toString());
+                Matcher matcher = pattern.matcher(left.getValue().toString());
+                return Cell.builder()
+                        .columnType(ColumnType.BOOLEAN)
+                        .value(matcher.matches())
+                        .build();
+            } else {
+                throw new IllegalArgumentException("Unsupported operation '"+op+"' between "+left.getValue()+" of type "+left.getColumnType()+" and "+right.getValue()+" of type "+right.getColumnType());
+            }
+        }
         if(left.isNumeric() != right.isNumeric()) {
-            throw new IllegalArgumentException("Unsupported operation '"+op+"' between "+left.getValue()+" with type "+left.getColumnType()+" and "+right.getValue()+" with type "+right.getColumnType());
+            throw new IllegalArgumentException("Unsupported operation '"+op+"' between "+left.getValue()+" of type "+left.getColumnType()+" and "+right.getValue()+" of type "+right.getColumnType());
         }
         if(left.getColumnType() != right.getColumnType() && !left.isNumeric()) {
-            throw new IllegalArgumentException("Unsupported operation '"+op+"' between "+left.getValue()+" with type "+left.getColumnType()+" and "+right.getValue()+" with type "+right.getColumnType());
+            throw new IllegalArgumentException("Unsupported operation '"+op+"' between "+left.getValue()+" of type "+left.getColumnType()+" and "+right.getValue()+" of type "+right.getColumnType());
         }
         switch (op) {
             case "==" : return eq(left, right);

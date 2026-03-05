@@ -123,7 +123,9 @@ public class Parser {
     private boolean isComparisonOp(Token t) {
         return switch (t.getType()) {
             case TokenType.GT, TokenType.GE,
-                 TokenType.LT, TokenType.LE, TokenType.EQ, TokenType.NEQ -> true;
+                 TokenType.LT, TokenType.LE, TokenType.EQ, TokenType.NEQ,
+                 TokenType.MATCH
+                    -> true;
             default -> false;
         };
     }
