@@ -3,7 +3,7 @@
 **DataAlchemist** is a lightweight, modular data transformation pipeline built with **Spring Boot**, **Kafka**, and **Docker**.  
 The goal is simple: take raw data (JSON/CSV), clean it, transform it, and export it — all through a Kafka-powered pipeline.
 
-## 🎯 Transformation Pipeline Implementation Current Goals
+## 🎯 Currently Implemented Goals
 
 ✅ -> implemented | ❌ -> not yet implemented
 
@@ -23,15 +23,23 @@ Select specific columns from the dataset.
 
 ---
 
-### ✅ Goal 3: Column Aliasing
+### ✅ Goal 3: Literal Values in Expressions
 
-Rename columns during selection using `as` keyword.
+Use raw values as operands alongside column references in any expression.
 
-**Example:** `%1 as employee_id, %2 as full_name` would rename 1st column to employee_id and 2nd column to full_name
+**Example:** `%2 + " Jr." as "full_name"` appends a string literal to the second column.
 
 ---
 
-### ✅ Goal 4: Basic Arithmetic Operations
+### ✅ Goal 4: Column Aliasing
+
+Rename columns during selection using `as` keyword.
+
+**Example:** `%1 as "employee_id", %2 as "full_name"` would rename 1st column to employee_id and 2nd column to full_name
+
+---
+
+### ✅ Goal 5: Basic Arithmetic Operations
 
 Perform calculations between columns using `+`, `-`, `*`, `/` operators.
 
@@ -39,7 +47,7 @@ Perform calculations between columns using `+`, `-`, `*`, `/` operators.
 
 ---
 
-### ✅ Goal 5: Comparison Operations
+### ✅ Goal 6: Comparison Operations
 
 Perform comparison operations using the operators : `>`, `<`, `>=`, `<=`, `==`, `!=`.
 
@@ -47,23 +55,23 @@ Perform comparison operations using the operators : `>`, `<`, `>=`, `<=`, `==`, 
 
 ---
 
-### ❌ Goal 6: Regex Pattern Matching
+### ❌ Goal 7: Regex Pattern Matching
 
-Filter rows using regex patterns with `~` operator.
+Perform regex patterns evaluation with `~` operator.
 
 **Example:** `%3 ~ ".*@company\\.com"` would keep only rows where the third column matches the email pattern
 
 ---
 
-### ✅ Goal 7: Logical Operators
+### ✅ Goal 8: Logical Operators
 
-Combine multiple filter conditions using `AND`, `OR` operators.
+Combine multiple conditions using `AND`, `OR` operators.
 
-**Example:** `%3 >= 5000 AND %4 == "IT"` would keep rows where salary is 5000+ AND department is IT
+**Example:** `%3 >= 5000 AND %4 == "IT"` evaluate expression salary is 5000+ AND department is IT
 
 ---
 
-### ✅ Goal 8: Column Type Casting
+### ✅ Goal 9: Column Type Casting
 
 Cast type to a column using `is` operator.
 
@@ -71,8 +79,44 @@ Cast type to a column using `is` operator.
 
 ---
 
-### ✅ Goal 9: Composite Expressions
+### ✅ Goal 10: Composite Expressions
 
 Combine multiple expressions in one.
 
-**Example:** `"%1 * 2 + %2 + %3 as new column is integer"` compute addition|multiplication of more than two columns and name it total + convert type to integer
+**Example:** `"%1 * 2 + %2 + %3 as "new column" is integer"` compute addition|multiplication of more than two columns and name it total + convert type to integer
+
+---
+
+### ❌ Goal 11: Conditional Expression
+
+Produce a value based on a condition using the IF function
+
+**Example:** `if(%3 > 5000, "high", "low") as "salary_range"` produces high when salary exceeds 5000, otherwise low
+
+---
+
+### ❌ Goal 12: String Functions
+
+Apply built-in string transformation functions to column values
+
+**Example:** `UPPER(%2) as "name"` converts the second column to uppercase. while `LOWER(%2) as "name"` converts to lowercase.
+
+- other functions :
+  - `trim(string expression)`
+  - `contains(string expression, keyword)`
+  - `length(string expression)`
+  - `substring(string expression, from, to)`
+
+---
+
+### ❌ Goal 13: Handle Null
+
+Check whether a column value is null or not null using == and != operators and the null keyword.
+
+**Example:** `%3 != null` returns true when the third column is not null. Can be used inside functions and other expressions to handle null values.
+
+### ❌ Goal 14: Null FallBack
+
+Provide default value for missing data
+
+**Example:** `default(%3, 0)` reference 3rd column, default to 0 if value is null
