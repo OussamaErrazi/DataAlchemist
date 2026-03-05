@@ -16,6 +16,7 @@ public class TypeCastingExpression implements ColumnExpression{
     @Override
     public Cell evaluate(Row row) {
         Cell cell = column.evaluate(row);
+        if(cell.getValue() == null) return cell;
         switch (newType) {
             case ColumnType.DOUBLE -> cell.setValue(Double.parseDouble(cell.getValue().toString()));
             case ColumnType.INTEGER -> cell.setValue((int) Double.parseDouble(cell.getValue().toString()));

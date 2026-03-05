@@ -104,6 +104,7 @@ public class Parser {
             case TokenType.DOUBLE -> {consume(); return new LiteralExpression(Double.parseDouble(t.getValue()));}
             case TokenType.BOOLEAN -> {consume(); return new LiteralExpression(t.getValue().equals("true"));}
             case TokenType.STRING -> {consume(); return new LiteralExpression(t.getValue());}
+            case TokenType.NULL -> {consume(); return new NullExpression();}
             case TokenType.DATE -> {consume(); return new DateLiteralExpression(t.getValue());}
             //todo implement the function expression
 //            case TokenType.IDENTIFIER -> {

@@ -11,5 +11,6 @@ public enum TokenType {
     L_PARENTHESIS, R_PARENTHESIS,
     COMMA,
     AS, IS, //as : for column renaming, is : for changing type
+    NULL,
     EOE //end of expression
 }

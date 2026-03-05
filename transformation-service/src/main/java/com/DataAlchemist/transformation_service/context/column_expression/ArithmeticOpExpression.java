@@ -43,7 +43,7 @@ public class ArithmeticOpExpression implements ColumnExpression{
         if (left.getColumnType() == ColumnType.STRING || right.getColumnType() == ColumnType.STRING) {
             cell.setColumnType(ColumnType.STRING);
             if(left.getValue() == null || right.getValue() == null) cell.setValue(null);
-            else cell.setValue(left.getValue().toString()+right.getValue().toString());
+            else cell.setValue(left.getValue()+right.getValue().toString());
         } else if (left.isNumeric()) {
             if (right.isNumeric()) {
                 cell.setColumnType(left.getColumnType() == ColumnType.DOUBLE || right.getColumnType() == ColumnType.DOUBLE ?  ColumnType.DOUBLE : ColumnType.INTEGER);

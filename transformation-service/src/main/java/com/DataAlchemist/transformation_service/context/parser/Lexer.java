@@ -103,6 +103,7 @@ public class Lexer {
             case "true" -> new Token("true", TokenType.BOOLEAN);
             case "false" -> new Token("false", TokenType.BOOLEAN);
             case "date" -> readDate();
+            case "null" -> new Token("null", TokenType.NULL);
             default -> new Token(word, TokenType.IDENTIFIER);
         };
     }

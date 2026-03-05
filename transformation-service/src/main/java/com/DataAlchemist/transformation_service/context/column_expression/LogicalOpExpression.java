@@ -23,16 +23,44 @@ public class LogicalOpExpression implements ColumnExpression{
         if(lcell.getColumnType() != ColumnType.BOOLEAN && rcell.getColumnType() != ColumnType.BOOLEAN) {
             throw new IllegalArgumentException("Unsupported operation '"+op+"' between types "+lcell.getColumnType()+" and "+rcell.getColumnType());
         }
-        Cell result = Cell.builder()
-                .columnType(ColumnType.BOOLEAN)
-                .build();
+        Boolean l = (Boolean) lcell.getValue();
+        Boolean r = (Boolean) rcell.getValue();
 
-        switch (op) {
-            case "or" -> result.setValue(Boolean.parseBoolean(lcell.getValue().toString()) || Boolean.parseBoolean(rcell.getValue().toString()));
-            case "and" -> result.setValue(Boolean.parseBoolean(lcell.getValue().toString()) && Boolean.parseBoolean(rcell.getValue().toString()));
-            default -> throw new IllegalArgumentException("Unsupported logical operation "+op);
-        };
+        if(op.equals("or")) {
+            if(Boolean.TRUE.equals(l) || Boolean.TRUE.equals(r))
+                return Cell.builder()
+                        .value(true)
+                        .columnType(ColumnType.BOOLEAN)
+                        .build();
+            if(l == null || r == null)
+                return Cell.builder()
+                        .value(null)
+                        .columnType(ColumnType.BOOLEAN)
+                        .build();
+            return Cell.builder()
+                    .value(false)
+                    .columnType(ColumnType.BOOLEAN)
+                    .build();
+        }
 
-        return result;
+        if(op.equals("and")) {
+            if(Boolean.FALSE.equals(l) || Boolean.FALSE.equals(r))
+                return Cell.builder()
+                        .value(false)
+                        .columnType(ColumnType.BOOLEAN)
+                        .build();
+            if(l == null || r == null)
+                return Cell.builder()
+                        .value(null)
+                        .columnType(ColumnType.BOOLEAN)
+                        .build();
+            return Cell.builder()
+                    .value(true)
+                    .columnType(ColumnType.BOOLEAN)
+                    .build();
+        }
+
+
+        throw new IllegalArgumentException("Unsupported logical operation "+op);
     }
 }

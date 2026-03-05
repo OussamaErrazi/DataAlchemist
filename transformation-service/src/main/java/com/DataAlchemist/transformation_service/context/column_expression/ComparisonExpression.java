@@ -25,8 +25,31 @@ public class ComparisonExpression implements ColumnExpression{
     public Cell evaluate(Row row) {
         Cell left = leftOperand.evaluate(row);
         Cell right = rightOperand.evaluate(row);
+        if(op.equals("==") || op.equals("!=")) {
+            if (leftOperand instanceof NullExpression && rightOperand instanceof NullExpression) {
+                return Cell.builder()
+                        .value(op.equals("=="))
+                        .columnType(ColumnType.BOOLEAN)
+                        .build();
+            } else if (leftOperand instanceof NullExpression) {
+                return Cell.builder()
+                        .value(op.equals("==") == (right.getValue() == null))
+                        .columnType(ColumnType.BOOLEAN)
+                        .build();
+            } else if (rightOperand instanceof NullExpression) {
+                return Cell.builder()
+                        .value(op.equals("==") == (left.getValue() == null))
+                        .columnType(ColumnType.BOOLEAN)
+                        .build();
+            }
+        }
         if(op.equals("~")) {
             if (left.getColumnType() == ColumnType.STRING && right.getColumnType() == ColumnType.STRING) {
+                if (left.getValue() == null)
+                    return Cell.builder()
+                            .value(null)
+                            .columnType(ColumnType.BOOLEAN)
+                            .build();
                 Pattern pattern = Pattern.compile(right.getValue().toString());
                 Matcher matcher = pattern.matcher(left.getValue().toString());
                 return Cell.builder()
@@ -34,15 +57,24 @@ public class ComparisonExpression implements ColumnExpression{
                         .value(matcher.matches())
                         .build();
             } else {
-                throw new IllegalArgumentException("Unsupported operation '"+op+"' between "+left.getValue()+" of type "+left.getColumnType()+" and "+right.getValue()+" of type "+right.getColumnType());
+                throw new IllegalArgumentException("Unsupported operation '"+op+"' between type "+left.getColumnType()+" and type "+right.getColumnType());
             }
         }
+
         if(left.isNumeric() != right.isNumeric()) {
-            throw new IllegalArgumentException("Unsupported operation '"+op+"' between "+left.getValue()+" of type "+left.getColumnType()+" and "+right.getValue()+" of type "+right.getColumnType());
+            throw new IllegalArgumentException("Unsupported operation '"+op+"' between type "+left.getColumnType()+" and type "+right.getColumnType());
         }
         if(left.getColumnType() != right.getColumnType() && !left.isNumeric()) {
-            throw new IllegalArgumentException("Unsupported operation '"+op+"' between "+left.getValue()+" of type "+left.getColumnType()+" and "+right.getValue()+" of type "+right.getColumnType());
+            throw new IllegalArgumentException("Unsupported operation '"+op+"' between type "+left.getColumnType()+" and type "+right.getColumnType());
         }
+
+        if(left.getValue() == null || right.getValue() == null) {
+            return Cell.builder()
+                    .value(null)
+                    .columnType(ColumnType.BOOLEAN)
+                    .build();
+        }
+
         switch (op) {
             case "==" : return eq(left, right);
             case "!=" : {Cell res = eq(left, right); res.setValue(!Boolean.parseBoolean(res.getValue().toString())); return res;}
