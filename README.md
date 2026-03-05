@@ -87,11 +87,11 @@ Combine multiple expressions in one.
 
 ---
 
-### ❌ Goal 11: Conditional Expression
+### ✅ Goal 11: Conditional Expression
 
 Produce a value based on a condition using the IF function
 
-**Example:** `if(%3 > 5000, "high", "low") as "salary_range"` produces high when salary exceeds 5000, otherwise low
+**Example:** `if(%3 > 5000, "high", "low") as "salary_range"` return "high" when salary exceeds 5000, otherwise return "low"
 
 ---
 
@@ -114,6 +114,8 @@ Apply built-in string transformation functions to column values
 Check whether a column value is null or not null using == and != operators and the null keyword.
 
 **Example:** `%3 != null` returns true when the third column is not null. Can be used inside functions and other expressions to handle null values.
+
+---
 
 ### ✅ Goal 14: Null FallBack
 
