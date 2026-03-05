@@ -3,6 +3,7 @@ package com.DataAlchemist.transformation_service.context.parser;
 import com.DataAlchemist.transformation_service.context.column_expression.*;
 import com.DataAlchemist.transformation_service.models.enums.ColumnType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
@@ -105,12 +106,7 @@ public class Parser {
             case TokenType.BOOLEAN -> {consume(); return new LiteralExpression(t.getValue().equals("true"));}
             case TokenType.STRING -> {consume(); return new LiteralExpression(t.getValue());}
             case TokenType.NULL -> {consume(); return new NullExpression();}
-            case TokenType.DATE -> {consume(); return new DateLiteralExpression(t.getValue());}
-            //todo implement the function expression
-//            case TokenType.IDENTIFIER -> {
-//
-////                return parseFunctionCall();
-//            }
+            case TokenType.IDENTIFIER -> {return parseFunctionCall();}
             case TokenType.L_PARENTHESIS -> {
                 consume();
                 ColumnExpression innerExpression = parseAddSub();
@@ -119,6 +115,33 @@ public class Parser {
             }
             default -> throw new IllegalArgumentException("Unexpected token: "+t.getValue()+" of type "+t.getType());
         }
+    }
+
+    //todo implement the function expression by creating function expression class
+    private ColumnExpression parseFunctionCall(){
+        String functionName = consume().getValue();
+        List<ColumnExpression> inputs = new ArrayList<>();
+        expect(TokenType.L_PARENTHESIS);
+        while(true) {
+            if(current().getType() == TokenType.EOE) throw new IllegalArgumentException("Missing closing parenthesis.");
+            if(current().getType() == TokenType.R_PARENTHESIS) break;
+
+            if(current().getType() == TokenType.COMMA){
+                inputs.add(null);
+                consume();
+                continue;
+            }
+            inputs.add(parseBinaryOp());
+            if(current().getType() == TokenType.COMMA){
+                consume();
+                if(current().getType() == TokenType.R_PARENTHESIS){
+                    inputs.add(null);
+                    break;
+                }
+            }
+        }
+        expect(TokenType.R_PARENTHESIS);
+        return new FunctionExpressionFactory().create(functionName, inputs);
     }
 
     private boolean isComparisonOp(Token t) {
