@@ -55,7 +55,7 @@ Perform comparison operations using the operators : `>`, `<`, `>=`, `<=`, `==`, 
 
 ---
 
-### ❌ Goal 7: Regex Pattern Matching
+### ✅ Goal 7: Regex Pattern Matching
 
 Perform regex patterns evaluation with `~` operator.
 
@@ -109,7 +109,7 @@ Apply built-in string transformation functions to column values
 
 ---
 
-### ❌ Goal 13: Handle Null
+### ✅ Goal 13: Handle Null
 
 Check whether a column value is null or not null using == and != operators and the null keyword.
 
