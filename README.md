@@ -126,3 +126,32 @@ Check whether a column value is null or not null using == and != operators and t
 Provide default value for missing data
 
 **Example:** `default(%3, 0)` reference 3rd column, default to 0 if value is null
+
+---
+
+### ✅ Goal 15: Date Function
+
+Represent a date var inside an expression using the `date(dd, MM, yyyy)` function.
+Any field can be left empty to inherit that field from the context date in the operation.
+The reader service automatically detects date columns using the formats `yyyy-MM-dd`, `MM/dd/yyyy`, `dd-MM-yyyy` and converts them to `dd/MM/yyyy` before reaching the transformation service.
+
+**Example:** `date(%2, %3, 2026)` builds a date using the day from column 2, the month from column 3, and a literal year 2026. `%6 == date(, , 2024)` checks if the date in column 6 falls in the year 2024
+
+---
+
+### ❌ Goal 16: Date Functions
+
+Extract components from a date column or perform computations between two dates.
+
+**Example:** `get_day(%6) as "admission_day"` extracts the day number from the admission date column. `days_between(%6, today()) as "days_since"` computes the number of days between the admission date and today.
+
+- extraction functions:
+  - `get_day(date expression)` extracts the day as an integer
+  - `get_month(date expression)` extracts the month as an integer
+  - `get_year(date expression)` extracts the year as an integer
+
+- computation functions:
+  - `days_between(date expression, date expression)` number of days between two dates
+  - `months_between(date expression, date expression)` number of months between two dates
+  - `years_between(date expression, date expression)` number of years between two dates
+  - `today()` current date
