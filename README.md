@@ -3,9 +3,41 @@
 **DataAlchemist** is a lightweight, modular data transformation pipeline built with **Spring Boot**, **Kafka**, and **Docker**.  
 The goal is simple: take raw data (JSON/CSV), clean it, transform it, and export it — all through a Kafka-powered pipeline.
 
-## 🎯 Currently Implemented Goals
+# Definition
 
-✅ -> implemented | ❌ -> not yet implemented
+## Stage Expression
+
+A pipeline is defined as an ordered list of stage expressions. Each stage expression takes the output row of the previous stage as its input and produces a new row.
+Column references like `%1`, `%2` always refer to the columns of the current stage input, not the original dataset.
+
+A stage expression is a comma-separated list of column expressions where each one defines one output column. The output row of a stage contains exactly the columns defined by its expressions in the same order.
+
+**Example:** given a dataset with columns `["id", "first_name", "last_name", "salary"]`:
+
+```
+Stage 1: "%1, %2 + " " + %3 as "full_name", %4"
+    input:  [id, first_name, last_name, salary]
+    output: [id, full_name, salary]
+
+Stage 2: "%1, %2, %3 * 1.1 as "new_salary""
+    input:  [id, full_name, salary]      <- output of stage 1
+    output: [id, full_name, new_salary]  <- %3 here is salary not last_name
+```
+
+There are currently two types of stages:
+
+- **Transformation stage** : reshapes, computes, and selects columns
+- **Filter stage** : drops rows that do not match a condition using `filter(...)`
+
+### ❌ Condition ❌ :
+
+A stage must be of a single type. Mixing operations from different stage types in the same stage is invalid.
+
+### ℹ️ Note ℹ️ :
+
+in what follows this emoji ✅ marks a goal as implemented while this emoji ❌ means not yet implemented
+
+## 🎯 Transformation Stage Expressions
 
 ### ✅ Goal 1: Column Reference by Position
 
@@ -155,3 +187,7 @@ Extract components from a date column or perform computations between two dates.
   - `months_between(date expression, date expression)` number of months between two dates
   - `years_between(date expression, date expression)` number of years between two dates
   - `today()` current date
+
+---
+
+## 🎯 Filter Stage Expressions
