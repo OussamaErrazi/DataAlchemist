@@ -171,7 +171,7 @@ The reader service automatically detects date columns using the formats `yyyy-MM
 
 ---
 
-### ❌ Goal 16: Date Functions
+### ✅ Goal 16: Date Functions
 
 Extract components from a date column or perform computations between two dates.
 

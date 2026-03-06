@@ -82,6 +82,18 @@ public class FunctionExpressionFactory {
                 if(!inputs.isEmpty()) throwError("today", 0, inputs.size());
                 return new TodayFunctionExpression();
             }
+            case "days_between" -> {
+                if(inputs.size() != 2) throwError("days_between", 2, inputs.size());
+                return new DaysBetweenFunctionExpression(inputs.getFirst(), inputs.getLast());
+            }
+            case "months_between" -> {
+                if(inputs.size() != 2) throwError("months_between", 2, inputs.size());
+                return new MonthsBetweenFunctionExpression(inputs.getFirst(), inputs.getLast());
+            }
+            case "years_between" -> {
+                if(inputs.size() != 2) throwError("years_between", 2, inputs.size());
+                return new YearsBetweenFunctionExpression(inputs.getFirst(), inputs.getLast());
+            }
             default -> throw new IllegalArgumentException("Unknown function name "+functionName);
         }
     }
