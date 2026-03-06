@@ -1,6 +1,7 @@
 package com.DataAlchemist.transformation_service.context.column_expression.function;
 
 import com.DataAlchemist.transformation_service.context.column_expression.ColumnExpression;
+import com.DataAlchemist.transformation_service.context.column_expression.function.date_function.*;
 import com.DataAlchemist.transformation_service.context.column_expression.function.string_function.*;
 
 import java.util.List;
@@ -64,6 +65,22 @@ public class FunctionExpressionFactory {
             case "replace" -> {
                 if(inputs.size()!=3) throwError("replace", 3, inputs.size());
                 return new ReplaceFunctionExpression(inputs.getFirst(), inputs.get(1), inputs.getLast());
+            }
+            case "get_day" -> {
+                if(inputs.size()!=1) throwError("get_day", 1, inputs.size());
+                return new GetDayFunctionExpression(inputs.getFirst());
+            }
+            case "get_month" -> {
+                if(inputs.size()!=1) throwError("get_month", 1, inputs.size());
+                return new GetMonthFunctionExpression(inputs.getFirst());
+            }
+            case "get_year" -> {
+                if(inputs.size()!=1) throwError("get_year", 1, inputs.size());
+                return new GetYearFunctionExpression(inputs.getFirst());
+            }
+            case "today" -> {
+                if(!inputs.isEmpty()) throwError("today", 0, inputs.size());
+                return new TodayFunctionExpression();
             }
             default -> throw new IllegalArgumentException("Unknown function name "+functionName);
         }
