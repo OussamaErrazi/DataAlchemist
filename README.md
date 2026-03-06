@@ -65,9 +65,9 @@ Perform regex patterns evaluation with `~` operator.
 
 ### ✅ Goal 8: Logical Operators
 
-Combine multiple conditions using `AND`, `OR` operators.
+Combine multiple conditions using `AND`, `OR` operators, in addition to `NOT` as a function.
 
-**Example:** `%3 >= 5000 AND %4 == "IT"` evaluate expression salary is 5000+ AND department is IT
+**Example:** `%3 >= 15000 AND NOT(%4 == "IT")` evaluate expression salary is 15000+ AND department is not IT
 
 ---
 
@@ -95,7 +95,7 @@ Produce a value based on a condition using the IF function
 
 ---
 
-### ❌ Goal 12: String Functions
+### ✅ Goal 12: String Functions
 
 Apply built-in string transformation functions to column values
 
@@ -103,9 +103,13 @@ Apply built-in string transformation functions to column values
 
 - other functions :
   - `trim(string expression)`
-  - `contains(string expression, keyword)`
+  - `contains(string expression, string keyword)`
   - `length(string expression)`
-  - `substring(string expression, from, to)`
+  - `substring(string expression, from index::included, to index::not included)`
+  - `index_of(string expression, string keyword)`
+  - `starts_with(string expression, string keyword)`
+  - `ends_with(string expression, string keyword)`
+  - `replace(string expression, string target, string replacement)`
 
 ---
 
