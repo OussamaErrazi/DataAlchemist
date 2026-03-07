@@ -5,6 +5,7 @@ import com.DataAlchemist.transformation_service.context.column_expression.Column
 import com.DataAlchemist.transformation_service.context.parser.Lexer;
 import com.DataAlchemist.transformation_service.context.parser.Parser;
 import com.DataAlchemist.transformation_service.context.parser.Token;
+import com.DataAlchemist.transformation_service.context.pipe.FilterPipe;
 import com.DataAlchemist.transformation_service.context.pipe.TransformationPipe;
 
 import java.util.ArrayList;
@@ -16,14 +17,22 @@ public class PipelineBuilder {
         PipelineContext pipelineCxt = new PipelineContext();
         for(String expression : regexPipeline) {
             List<String> parts = splitByComma(expression);
-            List<ColumnExpression> expressionList = new ArrayList<>();
-            for(String colExpression : parts) {
-                List<Token> tokens = new Lexer(colExpression).tokenize();
-                ColumnExpression expr = new Parser(tokens).parseColumnExpression();
-                expressionList.add(expr);
-            }
+            String first = parts.getFirst().toUpperCase();
+            if (first.startsWith("FILTER(")) {
+                if(parts.size()!=1) {
+                    throw new IllegalArgumentException("Filter stage must contain exactly one condition. "+"Found " + parts.size() + " expressions. "+"Combine conditions using AND or OR operators instead.");
+                }
+                String stringExpression = first.substring(7, first.length()-1);
+                pipelineCxt.addPipe(new FilterPipe(toColumnExpression(stringExpression)));
+            } else {
+                List<ColumnExpression> expressionList = new ArrayList<>();
+                for (String stringExpression : parts) {
 
-            pipelineCxt.addPipe(new TransformationPipe(expressionList));
+                    expressionList.add(toColumnExpression(stringExpression));
+                }
+
+                pipelineCxt.addPipe(new TransformationPipe(expressionList));
+            }
         }
 
         return pipelineCxt;
@@ -51,5 +60,10 @@ public class PipelineBuilder {
             parts.add(sb.toString().trim());
         }
         return parts;
+    }
+
+    private static ColumnExpression toColumnExpression(String stringExpression) {
+        List<Token> tokens = new Lexer(stringExpression).tokenize();
+        return new Parser(tokens).parseColumnExpression();
     }
 }

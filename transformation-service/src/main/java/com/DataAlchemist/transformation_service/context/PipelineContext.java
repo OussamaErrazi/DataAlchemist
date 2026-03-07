@@ -1,5 +1,6 @@
 package com.DataAlchemist.transformation_service.context;
 
+import com.DataAlchemist.transformation_service.context.pipe.FilterPipe;
 import com.DataAlchemist.transformation_service.context.pipe.Pipe;
 import com.DataAlchemist.transformation_service.models.Row;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,11 @@ public class PipelineContext {
     public Row process(Row row) {
         for(Pipe pipe : pipes) {
             if(row == null) return null;
+            if(pipe instanceof FilterPipe) {
+                Row result = pipe.process(row);
+                if(result == null) return null;
+                continue;
+            }
             row = pipe.process(row);
         }
         return row;

@@ -15,6 +15,11 @@ A stage expression is a comma-separated list of column expressions where each on
 **Example:** given a dataset with columns `["id", "first_name", "last_name", "salary"]`:
 
 ```
+pipeline = [
+             "%1, %2 + \" \" + %3 as \"full_name\", %4" ,
+             "%1, %2, %3 * 1.1 as \"new_salary\""
+           ]
+
 Stage 1: "%1, %2 + " " + %3 as "full_name", %4"
     input:  [id, first_name, last_name, salary]
     output: [id, full_name, salary]
@@ -190,4 +195,12 @@ Extract components from a date column or perform computations between two dates.
 
 ---
 
-## 🎯 Filter Stage Expressions
+# 🎯 Filter Stage Expressions
+
+a filter stage can consiste only of one filter function.
+
+### ✅ Goal 1: Filter function
+
+filter function used to filter rows by a condition
+
+**Example:** `filter(%5 >= 15000 and %6 == "IT")` keeps rows where salary is 15000+ AND department is IT
