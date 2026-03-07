@@ -32,4 +32,10 @@ public class Row {
         }
 
     }
+
+    public Row shallowCopy() {
+        Row r = new Row();
+        r.setCells(new ArrayList<>(this.getCells()));
+        return r;
+    }
 }

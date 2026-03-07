@@ -82,7 +82,10 @@ public class TransformationJobConsumerService {
             }
             case StreamType.COMPLETED -> {
                 LOGGER.info("completed {}", dataStreamResponse.getPayload());
-                //TODO delete schema context and pipeline context and signal the data completion to the data saving service
+                //TODO delete schema context and pipeline context and signal the data completion to the data saving service | flush pipeline if is aggregating
+                PipelineContext pipelineContext = piplinesMap.get(dataStreamResponse.getRequestId());
+                if(pipelineContext.isAggregating()) pipelineContext.flush(a-> System.out.println(a));
+
             }
         }
     }

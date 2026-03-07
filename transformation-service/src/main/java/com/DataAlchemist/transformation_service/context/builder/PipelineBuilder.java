@@ -5,6 +5,7 @@ import com.DataAlchemist.transformation_service.context.column_expression.Column
 import com.DataAlchemist.transformation_service.context.parser.Lexer;
 import com.DataAlchemist.transformation_service.context.parser.Parser;
 import com.DataAlchemist.transformation_service.context.parser.Token;
+import com.DataAlchemist.transformation_service.context.pipe.AggregatePipe;
 import com.DataAlchemist.transformation_service.context.pipe.FilterPipe;
 import com.DataAlchemist.transformation_service.context.pipe.TransformationPipe;
 
@@ -24,6 +25,12 @@ public class PipelineBuilder {
                 }
                 String stringExpression = first.substring(7, first.length()-1);
                 pipelineCxt.addPipe(new FilterPipe(toColumnExpression(stringExpression)));
+            } else if (first.startsWith("GROUP(")) {
+                if(parts.size()!=1) throw new IllegalArgumentException(); //todo exception message
+                String stringExpression = first.substring(6, first.length()-1);
+                List<String> arguments = splitByComma(stringExpression);
+                pipelineCxt.setAggregating(true);
+                pipelineCxt.addPipe(new AggregatePipe(arguments.stream().map(PipelineBuilder::toColumnExpression).toList()));
             } else {
                 List<ColumnExpression> expressionList = new ArrayList<>();
                 for (String stringExpression : parts) {
