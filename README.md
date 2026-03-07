@@ -29,10 +29,11 @@ Stage 2: "%1, %2, %3 * 1.1 as "new_salary""
     output: [id, full_name, new_salary]  <- %3 here is salary not last_name
 ```
 
-There are currently two types of stages:
+There are currently three types of stages:
 
 - **Transformation stage** : reshapes, computes, and selects columns
 - **Filter stage** : drops rows that do not match a condition using `filter(...)`
+- **Aggregate stage** : apply aggregate functions like `sum(...), count()`
 
 ### ❌ Condition ❌ :
 
@@ -204,3 +205,57 @@ a filter stage can consiste only of one filter function.
 filter function used to filter rows by a condition
 
 **Example:** `filter(%5 >= 15000 and %6 == "IT")` keeps rows where salary is 15000+ AND department is IT
+
+---
+
+# Aggregate Stage Expressions
+
+an aggregate stage can consiste of only one group function. (and currently only one group function can be used inside the pipeline array)
+
+### ✅ Goal 1: Group function
+
+Group function used to aggregate rows, optionally by key columns.
+
+**Example:** `group(sum(%2))` aggregates all rows and returns the sum of column 2
+
+---
+
+### ✅ Goal 2: Use multiple/none keys and 1 or more aggregate functions inside group function
+
+**Example 1:** `group(sum(%2), sum(default(%3, 0)))`
+
+**Example 2:** `group(%2, count(%3, 0))`
+
+---
+
+### ✅ Goal 3: Sum function
+
+Calculates the total sum of values of the specified expression.
+
+**Example:** `group(%1, sum(%2))` returns the sum of values in column 2 per column 1
+
+---
+
+### ❌ Goal 4: Count function
+
+Counts the total number of rows in the group.
+
+**Example:** `group(%1, count())` groups by column 1 and returns the row count per group.
+
+---
+
+### ❌ Goal 5: Avg function
+
+Calculates the average of values in the specified column.
+
+**Example:** `group(%1, avg(%3))` groups by column 1 and returns the average of column 3
+
+---
+
+### ❌ Goal 6: Min & Max functions
+
+Returns the minimum/maximum value in the specified column.
+
+**Example:** `*group(%1, min(%3))` groups by column 1 and returns the minimum value of column 3
+
+---
