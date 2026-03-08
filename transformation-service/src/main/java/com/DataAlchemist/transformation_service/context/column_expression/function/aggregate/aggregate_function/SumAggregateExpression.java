@@ -1,11 +1,12 @@
-package com.DataAlchemist.transformation_service.context.column_expression.function.aggregate;
+package com.DataAlchemist.transformation_service.context.column_expression.function.aggregate.aggregate_function;
 
 import com.DataAlchemist.transformation_service.context.column_expression.ColumnExpression;
+import com.DataAlchemist.transformation_service.context.column_expression.function.aggregate.AggregateExpression;
 import com.DataAlchemist.transformation_service.models.Cell;
 import com.DataAlchemist.transformation_service.models.Row;
 import com.DataAlchemist.transformation_service.models.enums.ColumnType;
 
-public class SumAggregateExpression extends AggregateExpression{
+public class SumAggregateExpression extends AggregateExpression {
     private final ColumnExpression input;
     private double sum =0;
     private ColumnType type;
@@ -28,7 +29,7 @@ public class SumAggregateExpression extends AggregateExpression{
     @Override
     public Cell get() {
         return Cell.builder()
-                .value(sum)
+                .value(type == ColumnType.DOUBLE ? sum : (long) sum)
                 .columnType(type)
                 .columnName("sum("+name+")")
                 .build();

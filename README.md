@@ -236,7 +236,7 @@ Calculates the total sum of values of the specified expression.
 
 ---
 
-### ❌ Goal 4: Count function
+### ✅ Goal 4: Count function
 
 Counts the total number of rows in the group.
 
@@ -244,7 +244,7 @@ Counts the total number of rows in the group.
 
 ---
 
-### ❌ Goal 5: Avg function
+### ✅ Goal 5: Avg function
 
 Calculates the average of values in the specified column.
 
@@ -252,10 +252,18 @@ Calculates the average of values in the specified column.
 
 ---
 
-### ❌ Goal 6: Min & Max functions
+### ✅ Goal 6: Min & Max functions
 
 Returns the minimum/maximum value in the specified column.
 
 **Example:** `*group(%1, min(%3))` groups by column 1 and returns the minimum value of column 3
+
+---
+
+### ✅ Goal 7: Count Distinct function
+
+Counts the total number of column distinct values.
+
+**Example:** `group(%1, count_distinct(&2))` groups by column 1 and returns the distinct count of column 2 values per group.
 
 ---

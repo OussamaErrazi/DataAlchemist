@@ -78,7 +78,7 @@ public class TransformationJobConsumerService {
                 Row row = new Row();
                 row.construct(schemaCxt, dataStreamResponse.getPayload());
                 row = pipelineCxt.process(row);
-                System.out.println(row);
+                if(row!=null) System.out.println(row);
             }
             case StreamType.COMPLETED -> {
                 LOGGER.info("completed {}", dataStreamResponse.getPayload());

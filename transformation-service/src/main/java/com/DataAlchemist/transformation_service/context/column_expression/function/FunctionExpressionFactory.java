@@ -1,8 +1,7 @@
 package com.DataAlchemist.transformation_service.context.column_expression.function;
 
 import com.DataAlchemist.transformation_service.context.column_expression.ColumnExpression;
-import com.DataAlchemist.transformation_service.context.column_expression.function.aggregate.CountAggregateExpression;
-import com.DataAlchemist.transformation_service.context.column_expression.function.aggregate.SumAggregateExpression;
+import com.DataAlchemist.transformation_service.context.column_expression.function.aggregate.aggregate_function.*;
 import com.DataAlchemist.transformation_service.context.column_expression.function.date_function.*;
 import com.DataAlchemist.transformation_service.context.column_expression.function.string_function.*;
 
@@ -103,6 +102,22 @@ public class FunctionExpressionFactory {
             case "count" -> {
                 if(!inputs.isEmpty()) throwError("count", 0, inputs.size());
                 return new CountAggregateExpression();
+            }
+            case "count_distinct" -> {
+                if(inputs.size()!=1) throwError("count_distinct", 1, inputs.size());
+                return new CountDistinctAggregateExpression(inputs.getFirst());
+            }
+            case "avg" -> {
+                if(inputs.size()!=1) throwError("avg", 1, inputs.size());
+                return new AvgAggregateExpression(inputs.getFirst());
+            }
+            case "min" -> {
+                if(inputs.size()!=1) throwError("min", 1, inputs.size());
+                return new MinAggregateExpression(inputs.getFirst());
+            }
+            case "max" -> {
+                if(inputs.size()!=1) throwError("max", 1, inputs.size());
+                return new MaxAggregateExpression(inputs.getFirst());
             }
             default -> throw new IllegalArgumentException("Unknown function name "+functionName);
         }
