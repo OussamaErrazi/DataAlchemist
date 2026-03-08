@@ -119,6 +119,14 @@ public class FunctionExpressionFactory {
                 if(inputs.size()!=1) throwError("max", 1, inputs.size());
                 return new MaxAggregateExpression(inputs.getFirst());
             }
+            case "first" -> {
+                if(inputs.size()!=1) throwError("first", 1, inputs.size());
+                return new FirstAggregateExpression(inputs.getFirst());
+            }
+            case "last" -> {
+                if(inputs.size()!=1) throwError("last", 1, inputs.size());
+                return new LastAggregateExpression(inputs.getFirst());
+            }
             default -> throw new IllegalArgumentException("Unknown function name "+functionName);
         }
     }

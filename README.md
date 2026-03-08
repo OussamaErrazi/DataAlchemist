@@ -256,7 +256,7 @@ Calculates the average of values in the specified column.
 
 Returns the minimum/maximum value in the specified column.
 
-**Example:** `*group(%1, min(%3))` groups by column 1 and returns the minimum value of column 3
+**Example:** `group(%1, min(%3))` groups by column 1 and returns the minimum value of column 3
 
 ---
 
@@ -264,6 +264,14 @@ Returns the minimum/maximum value in the specified column.
 
 Counts the total number of column distinct values.
 
-**Example:** `group(%1, count_distinct(&2))` groups by column 1 and returns the distinct count of column 2 values per group.
+**Example:** `group(%1, count_distinct(%2))` groups by column 1 and returns the distinct count of column 2 values per group.
+
+---
+
+### ✅ Goal 8: First & Last functions
+
+Get first or last value.
+
+**Example:** `group(%1, first(%2))` groups by column 1 and returns the first encountered in column 2 per group.
 
 ---
