@@ -28,23 +28,22 @@ public class PipelineContext {
     }
 
     public Row process(Row row) {
-        int index=0;
-        for(Pipe pipe : pipes) {
+        for(int pipeI =0 ; pipeI < pipes.size(); pipeI++) {
             if(row == null) return null;
+            Pipe pipe = pipes.get(pipeI);
             if(pipe instanceof AggregatePipe a) {
                 a.process(row);
-                aggregating = true; aggregateI = index;return null;
+                aggregateI = pipeI; return null;
             }
             row = pipe.process(row);
-            index++;
         }
         return row;
     }
 
     public void flush(Consumer<Row> consumer) {
-        if(!aggregating) return;
-        if(aggregateI < pipes.size()){
-            AggregatePipe aggregatePipe = (AggregatePipe) pipes.get(aggregateI);
+        if(!aggregating || aggregateI >= pipes.size()) return;
+        Pipe p = pipes.get(aggregateI);
+        if(p instanceof AggregatePipe aggregatePipe){
             aggregatePipe.produce(row-> {
                 Row result = continueFrom(row, aggregateI+1);
                 if(result != null) consumer.accept(result);
