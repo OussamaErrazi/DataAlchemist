@@ -18,14 +18,14 @@ public class PipelineBuilder {
         PipelineContext pipelineCxt = new PipelineContext();
         for(String expression : regexPipeline) {
             List<String> parts = splitByComma(expression);
-            String first = parts.getFirst().toUpperCase();
-            if (first.startsWith("FILTER(")) {
+            String first = parts.getFirst();
+            if (first.toUpperCase().startsWith("FILTER(")) {
                 if(parts.size()!=1) {
                     throw new IllegalArgumentException("Filter stage must contain exactly one condition. "+"Found " + parts.size() + " expressions. "+"Combine conditions using AND or OR operators instead.");
                 }
                 String stringExpression = first.substring(7, first.length()-1);
                 pipelineCxt.addPipe(new FilterPipe(toColumnExpression(stringExpression)));
-            } else if (first.startsWith("GROUP(")) {
+            } else if (first.toUpperCase().startsWith("GROUP(")) {
                 if(parts.size()!=1) throw new IllegalArgumentException(); //todo exception message
                 String stringExpression = first.substring(6, first.length()-1);
                 List<String> arguments = splitByComma(stringExpression);

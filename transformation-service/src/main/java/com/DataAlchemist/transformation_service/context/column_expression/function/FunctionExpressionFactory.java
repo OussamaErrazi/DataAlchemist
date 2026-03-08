@@ -1,6 +1,7 @@
 package com.DataAlchemist.transformation_service.context.column_expression.function;
 
 import com.DataAlchemist.transformation_service.context.column_expression.ColumnExpression;
+import com.DataAlchemist.transformation_service.context.column_expression.function.aggregate.CountAggregateExpression;
 import com.DataAlchemist.transformation_service.context.column_expression.function.aggregate.SumAggregateExpression;
 import com.DataAlchemist.transformation_service.context.column_expression.function.date_function.*;
 import com.DataAlchemist.transformation_service.context.column_expression.function.string_function.*;
@@ -98,6 +99,10 @@ public class FunctionExpressionFactory {
             case "sum" -> {
                 if(inputs.size() != 1) throwError("sum", 1, inputs.size());
                 return new SumAggregateExpression(inputs.getFirst());
+            }
+            case "count" -> {
+                if(!inputs.isEmpty()) throwError("count", 0, inputs.size());
+                return new CountAggregateExpression();
             }
             default -> throw new IllegalArgumentException("Unknown function name "+functionName);
         }
