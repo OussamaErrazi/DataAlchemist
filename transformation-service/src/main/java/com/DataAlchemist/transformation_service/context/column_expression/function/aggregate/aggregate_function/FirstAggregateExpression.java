@@ -18,6 +18,7 @@ public class FirstAggregateExpression extends AggregateExpression {
 
     @Override
     public void addRow(Row row) {
+        if(val != null) return;
         if(input == null) throw new IllegalArgumentException(); //todo exception message
         Cell result = input.evaluate(row);
         if(val == null) {
