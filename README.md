@@ -275,3 +275,11 @@ Get first or last value.
 **Example:** `group(%1, first(%2))` groups by column 1 and returns the first encountered in column 2 per group.
 
 ---
+
+### ❌ Goal 8: Count Distinct Approximate functions
+
+Returns approximated value for count distinct, optimized for high distinct values cardinality.
+
+**Example:** `group(count_distinct_approx(%2))` approximate count of unique values in 2nd column
+
+---
