@@ -276,10 +276,12 @@ Get first or last value.
 
 ---
 
-### ❌ Goal 8: Count Distinct Approximate functions
+### ✅ Goal 9: Count Distinct Approximate functions
 
 Returns approximated value for count distinct, optimized for high distinct values cardinality.
 
 **Example:** `group(count_distinct_approx(%2))` approximate count of unique values in 2nd column
+
+**Tip:** For columns like `department` and `status` with few possible values use `count_distinct`. While for columns like `customer_id` and `email` where almost every row is unique it is better to use `count_distinct_approx`.
 
 ---
